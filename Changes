@@ -1,5 +1,8 @@
 Revision history for Test-Mojo-Role-Debug
 
+1.003002  2015-11-13
+    - Added "da" method
+
 1.002002  2015-11-13
     - Fixed missing x_contributors from META
 

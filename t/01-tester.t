@@ -11,8 +11,14 @@ my $t = Test::Mojo::WithRoles->new;
 $t->get_ok('/')->status_is(200);
 
 my @results;
-( undef, @results ) = run_tests sub { $t->d('42'); };
-ok !(@results), '->d is a NOP when tests are not failing';
+( undef, @results ) = run_tests sub { $t->element_exists('title')->d('42'); };
+is $results[0]->{diag}, '', '->d is a NOP when tests are not failing';
+
+( undef, @results ) = run_tests sub { $t->text_is('Z')->da('42'); };
+is $results[0]->{diag},
+    "         got: ''\n    expected: undef\n\nDEBUG DUMPER"
+    . ": the selector (42) you provided did not match any elements\n\n",
+    '->da works even when tests are not failing';
 
 ( undef, @results ) = run_tests sub { $t->text_is('Z')->d('42'); };
 is $results[0]->{diag},

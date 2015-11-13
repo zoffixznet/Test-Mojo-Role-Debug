@@ -9,8 +9,11 @@ use Test::More ();
 
 sub d {
     my ( $self, $selector ) = @_;
-    return $self if $self->success;
+    return $self->success ? $self : $self->da( $selector );
+}
 
+sub da {
+    my ( $self, $selector ) = @_;
     my $markup = length $selector
         ? $self->tx->res->dom->at($selector)
         : $self->tx->res->dom;
@@ -23,7 +26,7 @@ sub d {
 
     Test::More::diag "\nDEBUG DUMPER:\n$markup\n\n";
 
-    return $self;
+    $self;
 }
 
 q|
