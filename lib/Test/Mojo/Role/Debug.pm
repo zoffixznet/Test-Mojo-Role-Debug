@@ -51,9 +51,9 @@ Test::Mojo::Role::Debug - Test::Mojo role to make debugging test failures easier
     my $t = Test::Mojo::WithRoles->new('MyApp');
 
     $t->get_ok('/')->status_is(200)
-        ->element
-        ->d         # Dump entire DOM
-        ->d('#foo') # Dump a specific element
+        ->element_exists('non_existant')
+        ->d         # Dump entire DOM on fail
+        ->d('#foo') # Dump a specific element on fail
     ;
 
     done_testing;
@@ -72,11 +72,12 @@ You have all the methods provided by L<Test::Mojo>, plus these:
 
 =head2 C<d>
 
-    $t->d;         # print entire DOM
-    $t->d('#foo'); # print a specific element
+    $t->d;         # print entire DOM on failure
+    $t->d('#foo'); # print a specific element on failure
 
 B<Returns> its invocant.
-Dumps the DOM of the current page to the screen. B<Takes> an optional
+On failure of previous tests (see L<Mojo::DOM/"success">),
+dumps the DOM of the current page to the screen. B<Takes> an optional
 selector to be passed to L<Mojo::DOM/"at">, in which case, only
 the markup of that element will be dumped.
 
@@ -114,8 +115,6 @@ to C<bug-test-mojo-role-debug at rt.cpan.org>
 =for pod_spiffy author ZOFFIX
 
 =for pod_spiffy end author section
-
-=head1 LICENSE
 
 =head1 CONTRIBUTORS
 
