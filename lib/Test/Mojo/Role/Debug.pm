@@ -51,6 +51,7 @@ Test::Mojo::Role::Debug - Test::Mojo role to make debugging test failures easier
     my $t = Test::Mojo::WithRoles->new('MyApp');
 
     $t->get_ok('/')->status_is(200)
+        ->element
         ->d         # Dump entire DOM
         ->d('#foo') # Dump a specific element
     ;
@@ -113,6 +114,16 @@ to C<bug-test-mojo-role-debug at rt.cpan.org>
 =for pod_spiffy author ZOFFIX
 
 =for pod_spiffy end author section
+
+=head1 LICENSE
+
+=head1 CONTRIBUTORS
+
+=for pod_spiffy start contributors section
+
+=for pod_spiffy author JBERGER
+
+=for pod_spiffy end contributors section
 
 =head1 LICENSE
 

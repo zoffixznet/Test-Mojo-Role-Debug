@@ -1,4 +1,9 @@
 Revision history for Test-Mojo-Role-Debug
 
+1.002001  2015-11-13
+    - "d" now uses diag() and is a NOP when tests aren't failing (jberger)
+    - Simplify examples and test dir (jberger)
+    - Wrote automated test suite
+
 1.001001  2015-11-13
    - First version released on an unsuspecting world

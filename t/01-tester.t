@@ -1,38 +1,49 @@
 #!perl
 
-use utf8;
-use FindBin;
-require "$FindBin::Bin/Test/MyApp.pm";
+use Mojolicious::Lite;
+get '/' => 'index';
 
-use Test::More;
+use Test::Tester;
+use Test::Most;
 use Test::Mojo::WithRoles 'Debug';
 my $t = Test::Mojo::WithRoles->new;
 
-$t->get_ok('/')->status_is(200)
-    ->d('42')
-    ->d('title')
-    ->d;
+$t->get_ok('/')->status_is(200);
 
-diag <<'END';
-I gave up trying to write proper tests for ->d, but patches are welcome!
+my @results;
+( undef, @results ) = run_tests sub { $t->d('42'); };
+ok !(@results), '->d is a NOP when tests are not failing';
 
-The above output should look something like this:
-DEBUG DUMPER: the selector (42) you provided did not match any elements
+( undef, @results ) = run_tests sub { $t->text_is('Z')->d('42'); };
+is $results[0]->{diag},
+    "         got: ''\n    expected: undef\n\nDEBUG DUMPER"
+    . ": the selector (42) you provided did not match any elements\n\n",
+    '->d gives correct message when selector not found';
 
+( undef, @results ) = run_tests sub { $t->text_is('Z')->d('title'); };
+is $results[0]->{diag},
+    "         got: ''\n    expected: undef\n\nDEBUG DUMPER:"
+    . "\n<title>42</title>\n\n",
+    '->d gives correct message when selector IS found';
 
-DEBUG DUMPER:
-<title>42</title>
+( undef, @results ) = run_tests sub { $t->text_is('Z')->d; };
+is $results[0]->{diag},
+    "         got: ''\n    expected: undef\n\nDEBUG DUMPER:\n<!DOCTYPE "
+    . "html>\n<html lang=\"en\">\n<meta charset=\"utf-8\">\n<title>42</title"
+    . ">\n</html>\n\n",
+    '->d gives correct message when no selector is used';
 
+subtest 'test ->d returns invocant' => sub {
+    $t->element_exists('title')->d->d->d->element_exists('title');
+};
 
-DEBUG DUMPER:
+done_testing();
+
+__DATA__
+
+@@index.html.ep
+
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="utf-8">
 <title>42</title>
-</html>
-END
-
-done_testing();
-
-__END__
-
