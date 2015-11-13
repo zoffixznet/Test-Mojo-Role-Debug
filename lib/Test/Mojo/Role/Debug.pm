@@ -51,6 +51,8 @@ Test::Mojo::Role::Debug - Test::Mojo role to make debugging test failures easier
     my $t = Test::Mojo::WithRoles->new('MyApp');
 
     $t->get_ok('/')->status_is(200)
+        ->element_exists('existant')
+        ->d         # Does nothing, since test succeeded
         ->element_exists('non_existant')
         ->d         # Dump entire DOM on fail
         ->d('#foo') # Dump a specific element on fail
