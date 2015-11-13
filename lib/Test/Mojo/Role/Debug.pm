@@ -38,7 +38,7 @@ __END__
 
 =encoding utf8
 
-=for stopwords Znet Zoffix app
+=for stopwords Znet Zoffix app DOM
 
 =head1 NAME
 
