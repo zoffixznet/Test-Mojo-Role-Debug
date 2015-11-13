@@ -3,27 +3,25 @@ package Test::Mojo::Role::Debug;
 use Mojo::Base -base;
 use Role::Tiny;
 use Carp qw/croak/;
+use Test::More ();
 
 # VERSION
 
 sub d {
     my ( $self, $selector ) = @_;
+    return $self if $self->success;
 
     my $markup = length $selector
         ? $self->tx->res->dom->at($selector)
         : $self->tx->res->dom;
 
     unless ( length $markup ) {
-        warn "\nDEBUG DUMPER: the selector ($selector) you provided "
+        Test::More::diag "\nDEBUG DUMPER: the selector ($selector) you provided "
             . "did not match any elements\n\n";
         return $self;
     }
 
-# use Acme::Dump::And::Dumper;
-        $Data::Dumper::Useqq=1;
-        # warn DnD [ "\nDEBUG DUMPER: the selector ($selector) you provided "
-            # . "did not match any elements\n\n" ];
-    warn "\nDEBUG DUMPER:\n$markup\n\n";
+    Test::More::diag "\nDEBUG DUMPER:\n$markup\n\n";
 
     return $self;
 }
