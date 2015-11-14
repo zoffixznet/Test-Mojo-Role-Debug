@@ -14,7 +14,7 @@ sub d {
 
 sub da {
     my ( $self, $selector ) = @_;
-    my $markup = length $selector
+    my $markup = length($selector//'')
         ? $self->tx->res->dom->at($selector)
         : $self->tx->res->dom;
 

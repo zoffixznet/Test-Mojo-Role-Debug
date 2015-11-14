@@ -3,6 +3,7 @@
 use Mojolicious::Lite;
 get '/' => 'index';
 
+no warnings 'redefine';
 use Test::Tester;
 use Test::Most;
 use Test::Mojo::WithRoles 'Debug';
