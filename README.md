@@ -18,6 +18,7 @@ Test::Mojo::Role::Debug - Test::Mojo role to make debugging test failures easier
         ->element_exists('non_existant')
         ->d         # Dump entire DOM on fail
         ->d('#foo') # Dump a specific element on fail
+        ->da        # Always dump
     ;
 
     done_testing;
@@ -46,6 +47,14 @@ On failure of previous tests (see ["success" in Mojo::DOM](https://metacpan.org/
 dumps the DOM of the current page to the screen. **Takes** an optional
 selector to be passed to ["at" in Mojo::DOM](https://metacpan.org/pod/Mojo::DOM#at), in which case, only
 the markup of that element will be dumped.
+
+## `da`
+
+    $t->da;
+    $t->da('#foo');
+
+Same as ["d"](#d), except it always dumps, regardless of whether the previous
+test failed or not.
 
 # SEE ALSO
 
