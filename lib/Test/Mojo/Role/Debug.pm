@@ -18,7 +18,7 @@ sub da {
         ? $self->tx->res->dom->at($selector)
         : $self->tx->res->dom;
 
-    unless ( length $markup ) {
+    unless ( defined $markup and length $markup ) {
         Test::More::diag "\nDEBUG DUMPER: the selector ($selector) you provided "
             . "did not match any elements\n\n";
         return $self;
