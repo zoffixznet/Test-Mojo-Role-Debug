@@ -95,7 +95,7 @@ You have all the methods provided by L<Test::Mojo>, plus these:
     $t->d('#foo', 'file.html'); # dump specific element into a file
 
 B<Returns> its invocant.
-On failure of previous tests (see L<Mojo::DOM/"success">),
+On failure of previous tests (see L<Test::Mojo/"success">),
 dumps the DOM of the current page to the screen. B<Takes> an optional
 selector to be passed to L<Mojo::DOM/"at">, in which case, only
 the markup of that element will be dumped.
