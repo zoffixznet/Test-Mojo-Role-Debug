@@ -26,6 +26,13 @@ sub da {
         return $self;
     }
 
+    if ($markup =~ /<!-- Request ID: \S+ -->/
+        and $markup->at('div#mojobar div#mojobar-links')
+        and (my $mojo_error = $markup->at('div#wrapperlicious pre#error'))
+    ) {
+        $markup = $mojo_error->all_text;
+    }
+
     if (length($dump_file//'')) {
         Test::More::diag "\nDEBUG DUMPER: dumping data to $dump_file\n\n";
         path($dump_file)->spurt(encode 'utf-8', $markup);
@@ -103,6 +110,9 @@ the markup of that element will be dumped.
 A filename can be provided as the second argument to put the contents into
 the file instead. To dump entire DOM, use C<undef> or empty string as the
 first argument.
+
+B<NOTE:> the plugin detects Mojolicious's error page and will dump
+only the error text from that page, instead of the entire DOM.
 
 =head2 C<da>
 
